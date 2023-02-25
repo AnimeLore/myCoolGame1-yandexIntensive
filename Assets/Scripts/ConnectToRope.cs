@@ -1,26 +1,33 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 public class ConnectToRope : MonoBehaviour
 {
-    private BoxCollider2D ropeEndCollider;
-    private DistanceJoint2D ohmaaanJoint;
-    private Rigidbody2D ropeEndRigid;
-    void Start()
+    private BoxCollider2D _collider;
+    private HingeJoint2D _playerJoint;
+    private Rigidbody2D _rigidBody;
+    
+    private void Start()
     {
-        ropeEndCollider = GetComponent<BoxCollider2D>();
-        ropeEndRigid = GetComponent<Rigidbody2D>();
+        _collider = GetComponent<BoxCollider2D>();
+        _rigidBody = GetComponent<Rigidbody2D>();
     }
 
-    void OnTriggerEnter2D(Collider2D col)
+    private void OnTriggerEnter2D(Collider2D player)
     {
-        if (ropeEndCollider != col && ropeEndCollider.isTrigger && col.gameObject.CompareTag("Player"))
+        if (player.gameObject.TryGetComponent(out MoveOnRope moveOnRope))
         {
-            Destroy(ropeEndCollider);
-            ohmaaanJoint = col.gameObject.GetComponent<DistanceJoint2D>();
-            ohmaaanJoint.connectedBody = ropeEndRigid;
-            ohmaaanJoint.enabled = true;
-        }
+            _playerJoint = player.gameObject.GetComponent<HingeJoint2D>();
+            _playerJoint.connectedBody = _rigidBody;
+            _playerJoint.enabled = true;
+        }        
+    }
+
+    private void OnTriggerExit2D(Collider2D other)
+    {
+        print("отключаем");
+        _collider.enabled = false;
     }
 }

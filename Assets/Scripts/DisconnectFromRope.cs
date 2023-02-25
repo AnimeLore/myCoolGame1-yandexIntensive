@@ -2,24 +2,25 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+[RequireComponent(typeof(HingeJoint2D))]
+
 public class DisconnectFromRope : MonoBehaviour
 {
+    private HingeJoint2D _playerJoint;
+    private Rigidbody2D _ropeRigidbody;
 
-    private DistanceJoint2D ohmaaanJoint;
-    private Rigidbody2D ropeRigid;
 
-    void Start()
+    private void Start()
     {
-        ohmaaanJoint = GetComponent<DistanceJoint2D>();
-        ropeRigid = ohmaaanJoint.connectedBody;
-        
+        _playerJoint = GetComponent<HingeJoint2D>();
     }
 
-    void Update()
+    private void Update()
     {
         if (Input.GetMouseButtonDown(0))
         {
-           ohmaaanJoint.enabled = false;
+           _playerJoint.enabled = false;
         }
     }
+
 }

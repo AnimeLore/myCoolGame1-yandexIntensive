@@ -2,25 +2,31 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+[RequireComponent(typeof(Rigidbody2D))]
 public class MoveOnRope : MonoBehaviour
 {
+    private Rigidbody2D _ohmaaanRigid;
+    private HingeJoint2D _ohmaaanHinge;
 
-    private Rigidbody2D ohmaaanRigid;
-
-    void Start()
+    private void Start()
     {
-        ohmaaanRigid = GetComponent<Rigidbody2D>();
+        _ohmaaanRigid = GetComponent<Rigidbody2D>();
+        _ohmaaanHinge = GetComponent<HingeJoint2D>();
     }
 
-    void Update()
+    private void Update()
     {
-        if (Input.GetKey(KeyCode.A))
+        float force = 0.03f;
+        if (_ohmaaanHinge.enabled)
         {
-            ohmaaanRigid.velocity += new Vector2(-0.01f, 0.0f);
-        }
-        else if (Input.GetKey(KeyCode.D))
-        {
-            ohmaaanRigid.velocity += new Vector2(0.01f, 0.0f);
+            if (Input.GetKey(KeyCode.A))
+            {
+                _ohmaaanRigid.velocity += new Vector2(-force, 0);
+            }
+            else if (Input.GetKey(KeyCode.D))
+            {
+                _ohmaaanRigid.velocity += new Vector2(force, 0);
+            }
         }
     }
 }
